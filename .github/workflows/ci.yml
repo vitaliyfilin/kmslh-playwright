@@ -22,6 +22,9 @@ jobs:
       - name: Restore NuGet packages
         run: dotnet restore tests/Kmslh.Tests.csproj
 
+      - name: Build test project (required for playwright CLI)
+        run: dotnet build tests/Kmslh.Tests.csproj
+
       - name: Install Playwright CLI tool globally
         run: dotnet tool install --global Microsoft.Playwright.CLI
 
