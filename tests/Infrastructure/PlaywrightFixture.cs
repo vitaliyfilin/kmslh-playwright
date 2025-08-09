@@ -10,7 +10,10 @@ namespace Kmslh.Tests.Infrastructure;
 // ReSharper disable once ClassNeverInstantiated.Global
 public sealed class PlaywrightFixture : IAsyncLifetime
 {
-    private static readonly string ProjectDir = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, @"..\..\..\") );
+    private static readonly string ProjectDir =
+        Environment.GetEnvironmentVariable("GITHUB_WORKSPACE") is { } workspace && !string.IsNullOrEmpty(workspace)
+            ? Path.Combine(workspace, "tests")
+            : Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, @"..\..\..\"));
 
     private readonly Lazy<Task<IPlaywright>> _playwrightLazy = new(async () => await Playwright.CreateAsync());
     private IBrowser? Browser { get; set; }
@@ -42,13 +45,13 @@ public sealed class PlaywrightFixture : IAsyncLifetime
             _ => playwright.Chromium,
         };
 
-        Browser = await browserType.LaunchAsync(new ()
+        Browser = await browserType.LaunchAsync(new()
         {
             Headless = Settings.Headless,
             SlowMo = Settings.SlowMo
         });
 
-        var context = await Browser.NewContextAsync(new ()
+        var context = await Browser.NewContextAsync(new()
         {
             BaseURL = Settings.BaseAddress,
             BypassCSP = true,
