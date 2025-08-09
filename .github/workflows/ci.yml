@@ -23,13 +23,13 @@ jobs:
         run: dotnet restore tests/Kmslh.Tests.csproj
 
       - name: Install Playwright CLI tool globally
-        run: dotnet tool install --global Microsoft.Playwright.CLI 
-      
+        run: dotnet tool install --global Microsoft.Playwright.CLI
+
       - name: Add dotnet global tools to PATH
         run: echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
 
       - name: Install Playwright browsers
-        run: dotnet playwright install
+        run: playwright install
 
       - name: Run tests
         run: dotnet test tests/Kmslh.Tests.csproj --logger trx
