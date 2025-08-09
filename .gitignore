@@ -1,0 +1,11 @@
+
+bin/
+obj/
+.vs/
+TestResults/
+.playwright/
+.vscode/
+*.user
+*.suo
+*.tmp
+/mount/data/kmslh-playwright.zip

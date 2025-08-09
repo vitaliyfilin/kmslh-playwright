@@ -1,0 +1,32 @@
+
+name: .NET Playwright CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Setup Node (for Playwright)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Restore NuGet packages
+        run: dotnet restore tests/Kmslh.Tests.csproj
+
+      - name: Run tests
+        run: dotnet test tests/Kmslh.Tests.csproj --logger trx
