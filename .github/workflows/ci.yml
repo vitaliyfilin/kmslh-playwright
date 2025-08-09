@@ -35,4 +35,10 @@ jobs:
         run: playwright install
 
       - name: Run tests
-        run: dotnet test tests/Kmslh.Tests.csproj --logger trx
+        run: dotnet test tests/Kmslh.Tests.csproj --logger "trx;LogFileName=TestResults.trx"
+
+      - name: Upload Test Results Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: TestResults
+          path: '**/TestResults.trx'
