@@ -22,8 +22,11 @@ jobs:
       - name: Restore NuGet packages
         run: dotnet restore tests/Kmslh.Tests.csproj
 
-      - name: Restore dotnet tools
-        run: dotnet tool restore
+      - name: Install Playwright CLI tool globally
+        run: dotnet tool install --global Microsoft.Playwright.CLI --version 1.35.0
+
+      - name: Add dotnet global tools to PATH
+        run: echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
 
       - name: Install Playwright browsers
         run: dotnet playwright install
