@@ -10,11 +10,8 @@ namespace Kmslh.Tests.Infrastructure;
 // ReSharper disable once ClassNeverInstantiated.Global
 public sealed class PlaywrightFixture : IAsyncLifetime
 {
-    private static readonly string ProjectDir =
-        Environment.GetEnvironmentVariable("GITHUB_WORKSPACE") is { } workspace && !string.IsNullOrEmpty(workspace)
-            ? Path.Combine(workspace, "tests")
-            : Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", ".."));
-
+    private static readonly string ProjectDir = AppContext.BaseDirectory;
+    
     private readonly Lazy<Task<IPlaywright>> _playwrightLazy = new(async () => await Playwright.CreateAsync());
     private IBrowser? Browser { get; set; }
     private PlaywrightSettings Settings { get; set; } = new();
